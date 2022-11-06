@@ -89,10 +89,15 @@ void loop() {
   
   L_botao_MAIS = digitalRead(botao_MAIS);
   if (!L_botao_MAIS && LA_botao_MAIS) {
-            if (tela==1)brilho1++;
-            if (tela==2)brilho2++;
-            if (tela==3)brilho3++;
-            if (tela==4)brilho4++;
+            if (tela==1){if(brilho1 == 255){}else{brilho1++;}}
+            if (tela==2){if(brilho2 == 255){}else{brilho2++;}}
+            if (tela==3){if(brilho3 == 255){}else{brilho3++;}}
+            if (tela==4){if(brilho4 == 255){}else{brilho4++;}}
+                        
+            //if (tela==1)brilho1++;
+            //if (tela==2)brilho2++;
+            //if (tela==3)brilho3++;
+            //if (tela==4)brilho4++;
             if (tela==6)brilho6++;
             if (tela==5){
               if(digitalRead(botao_MAIS) == 0){
@@ -106,10 +111,16 @@ void loop() {
   // === Ações do Botão MENOS === //   
   L_botao_MENOS = digitalRead(botao_MENOS);
   if (!L_botao_MENOS && LA_botao_MENOS) {
-            if (tela==1)brilho1--;
-            if (tela==2)brilho2--;
-            if (tela==3)brilho3--;
-            if (tela==4)brilho4--;
+
+            if (tela==1){if(brilho1 <= 0){}else{brilho1--;}}
+            if (tela==2){if(brilho2 <= 0){}else{brilho2--;}}
+            if (tela==3){if(brilho3 <= 0){}else{brilho3--;}}
+            if (tela==4){if(brilho4 <= 0){}else{brilho4--;}}            
+            
+            //if (tela==1)brilho1--;
+            //if (tela==2)brilho2--;
+            //if (tela==3)brilho3--;
+            //if (tela==4)brilho4--;
             if (tela==6)brilho6--;            
             if (tela==5){
               if(digitalRead(botao_MENOS) == 0){
