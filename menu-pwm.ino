@@ -3,13 +3,13 @@
 #include <LiquidCrystal_I2C.h>
 LiquidCrystal_I2C lcd(0x27,20,4);
 
-#define led1         3                
-#define led2         4                 
-#define led3         5                 
-#define led4         6           
-#define led5         7           
-#define led6         8                 
-char dado;
+#define led1  3                
+#define led2  4                 
+#define led3  5                 
+#define led4  6           
+#define led5  7           
+#define led6  8                 
+
 
 #define botao_MAIS   30                 
 #define botao_MENOS  28      
@@ -49,9 +49,9 @@ void setup(){
 void inicio(){
   lcd.clear();
   lcd.setCursor(0,0);
-  lcd.print("Sistema");
+  lcd.print("PauloRafael");
   lcd.setCursor(0,1);
-  lcd.print("  v2");
+  lcd.print(" Sistema v1");
   delay(3000);
 }
 
@@ -93,11 +93,6 @@ void loop() {
             if (tela==2){if(brilho2 == 255){}else{brilho2++;}}
             if (tela==3){if(brilho3 == 255){}else{brilho3++;}}
             if (tela==4){if(brilho4 == 255){}else{brilho4++;}}
-                        
-            //if (tela==1)brilho1++;
-            //if (tela==2)brilho2++;
-            //if (tela==3)brilho3++;
-            //if (tela==4)brilho4++;
             if (tela==6)brilho6++;
             if (tela==5){
               if(digitalRead(botao_MAIS) == 0){
@@ -116,11 +111,6 @@ void loop() {
             if (tela==2){if(brilho2 <= 0){}else{brilho2--;}}
             if (tela==3){if(brilho3 <= 0){}else{brilho3--;}}
             if (tela==4){if(brilho4 <= 0){}else{brilho4--;}}            
-            
-            //if (tela==1)brilho1--;
-            //if (tela==2)brilho2--;
-            //if (tela==3)brilho3--;
-            //if (tela==4)brilho4--;
             if (tela==6)brilho6--;            
             if (tela==5){
               if(digitalRead(botao_MENOS) == 0){
