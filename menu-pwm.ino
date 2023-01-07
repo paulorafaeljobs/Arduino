@@ -1,27 +1,22 @@
 #include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
-//LiquidCrystal_I2C lcd(0x27,20,4);//Display Pequeno   
-LiquidCrystal_I2C lcd(0x3F,20,4);//Display Grande   
-
 #include <EEPROM.h>
+#include <Encoder.h>
+//LiquidCrystal_I2C lcd(0x27,20,4);
+LiquidCrystal_I2C lcd(0x3F,20,4); 
+Encoder myEnc(6, 5);
 
 #define botao_MAIS   24                 
 #define botao_MENOS  25      
-           
 #define botao_VOLTAR 22                  
 #define botao_ENTER  23                 
-
 #define botao_menu1 26                  
 #define botao_menu2 27                 
-
 const byte led13 = 13;
-
 bool L_botao_MAIS,  LA_botao_MAIS,  L_botao_MENOS,  LA_botao_MENOS  = 1;               
 bool L_botao_ENTER, LA_botao_ENTER, L_botao_VOLTAR, LA_botao_VOLTAR = 1;
-
 int  tela = 1;
 int  voltar = 4;
-
 #define Mot1  3                
 #define Mot2  4                 
 #define Mot3  5                 
@@ -29,7 +24,7 @@ int  voltar = 4;
 #define Mot5  7           
 #define Mot6  8                 
 #define Mot7  9           
-#define Mot8  10                 
+#define Mot8  10           
 
 #define Led1  31                
 #define Led2  32                
@@ -38,7 +33,7 @@ int  voltar = 4;
 #define Led5  35           
 #define Led6  36                 
 #define Led7  37          
-#define Led8  38                 
+#define Led8  38           
 
 byte Motor1;
 byte Motor2;
@@ -81,11 +76,10 @@ void setup(){
    pinMode(Led6,  OUTPUT);
    pinMode(Led7,  OUTPUT);
    pinMode(Led8,  OUTPUT);
-   lcd.begin(20,4); 
-   lcd.init(); 
+   lcd.begin(); 
    lcd.backlight();  
    //lcd.noBacklight();
-   //inicio();
+   inicio();
 // byte brilho = 0;
 // EEPROM.write(brilho, 123);
 // Serial.println(EEPROM.read(brilho));
@@ -97,26 +91,10 @@ void inicio(){
   lcd.print("PauloRafael");
   lcd.setCursor(0,1);
   lcd.print(" Sistema v1");
-  delay(1000);
-}
-
-String leStringSerial(){
-  String conteudo = "";
-  char caractere;
-  while(Serial.available() > 0) {
-    caractere = Serial.read();
-    if (caractere != '\n'){
-      conteudo.concat(caractere);
-    }
-    delay(10);
-  }
-  Serial.print("Recebi: ");
-  Serial.println(conteudo);
-  return conteudo;
+  delay(3000);
 }
 
 void loop() {     
-
   if (Serial.available() > 0){
     String recebido = leStringSerial();
     if (recebido == "led1:1"){Statusled1 = 1;};
@@ -161,117 +139,115 @@ void loop() {
     lcd.setCursor(0,2);lcd.print("  Serial            ");
     lcd.setCursor(0,3);lcd.print("> Config            ");
 
-
   }else if (tela==11){
-    lcd.setCursor(0,0);lcd.print(F("> Motor 1    "));lcd.print(Motor1);lcd.print(F("     "));
-    lcd.setCursor(0,1);lcd.print(F("  Motor 2    "));lcd.print(Motor2);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Motor 3    "));lcd.print(Motor3);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("  Motor 4    "));lcd.print(Motor4);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("> Motor 1      "));lcd.print(Motor1);lcd.print(F("   "));
+    lcd.setCursor(0,1);lcd.print(F("  Motor 2      "));lcd.print(Motor2);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Motor 3      "));lcd.print(Motor3);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("  Motor 4      "));lcd.print(Motor4);lcd.print(F("   ")); 
 
   }else if (tela==12){
-    lcd.setCursor(0,0);lcd.print(F("  Motor 1    "));lcd.print(Motor1);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("> Motor 2    "));lcd.print(Motor2);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Motor 3    "));lcd.print(Motor3);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("  Motor 4    "));lcd.print(Motor4);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Motor 1      "));lcd.print(Motor1);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("> Motor 2      "));lcd.print(Motor2);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Motor 3      "));lcd.print(Motor3);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("  Motor 4      "));lcd.print(Motor4);lcd.print(F("   ")); 
 
   }else if (tela==13){
-    lcd.setCursor(0,0);lcd.print(F("  Motor 1    "));lcd.print(Motor1);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("  Motor 2    "));lcd.print(Motor2);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("> Motor 3    "));lcd.print(Motor3);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("  Motor 4    "));lcd.print(Motor4);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Motor 1      "));lcd.print(Motor1);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("  Motor 2      "));lcd.print(Motor2);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("> Motor 3      "));lcd.print(Motor3);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("  Motor 4      "));lcd.print(Motor4);lcd.print(F("   ")); 
 
   }else if (tela==14){
-    lcd.setCursor(0,0);lcd.print(F("  Motor 1    "));lcd.print(Motor1);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("  Motor 2    "));lcd.print(Motor2);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Motor 3    "));lcd.print(Motor3);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("> Motor 4    "));lcd.print(Motor4);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Motor 1      "));lcd.print(Motor1);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("  Motor 2      "));lcd.print(Motor2);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Motor 3      "));lcd.print(Motor3);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("> Motor 4      "));lcd.print(Motor4);lcd.print(F("   ")); 
 
   }else if (tela==15){
-    lcd.setCursor(0,0);lcd.print(F("> Motor 5    "));lcd.print(Motor5);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("  Motor 6    "));lcd.print(Motor6);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Motor 7    "));lcd.print(Motor7);lcd.print(F("     "));  
-    lcd.setCursor(0,3);lcd.print(F("  Motor 8    "));lcd.print(Motor8);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("> Motor 5      "));lcd.print(Motor5);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("  Motor 6      "));lcd.print(Motor6);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Motor 7      "));lcd.print(Motor7);lcd.print(F("   "));  
+    lcd.setCursor(0,3);lcd.print(F("  Motor 8      "));lcd.print(Motor8);lcd.print(F("   ")); 
 
   }else if (tela==16){
-    lcd.setCursor(0,0);lcd.print(F("  Motor 5    "));lcd.print(Motor5);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("> Motor 6    "));lcd.print(Motor6);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Motor 7    "));lcd.print(Motor7);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("  Motor 8    "));lcd.print(Motor8);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Motor 5      "));lcd.print(Motor5);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("> Motor 6      "));lcd.print(Motor6);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Motor 7      "));lcd.print(Motor7);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("  Motor 8      "));lcd.print(Motor8);lcd.print(F("   ")); 
  
   }else if (tela==17){
-    lcd.setCursor(0,0);lcd.print(F("  Motor 5    "));lcd.print(Motor5);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("  Motor 6    "));lcd.print(Motor6);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("> Motor 7    "));lcd.print(Motor7);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("  Motor 8    "));lcd.print(Motor8);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Motor 5      "));lcd.print(Motor5);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("  Motor 6      "));lcd.print(Motor6);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("> Motor 7      "));lcd.print(Motor7);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("  Motor 8      "));lcd.print(Motor8);lcd.print(F("   ")); 
 
   }else if (tela==18){
-    lcd.setCursor(0,0);lcd.print(F("  Motor 5    "));lcd.print(Motor5);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("  Motor 6    "));lcd.print(Motor6);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Motor 7    "));lcd.print(Motor7);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("> Motor 8    "));lcd.print(Motor8);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Motor 5      "));lcd.print(Motor5);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("  Motor 6      "));lcd.print(Motor6);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Motor 7      "));lcd.print(Motor7);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("> Motor 8      "));lcd.print(Motor8);lcd.print(F("   ")); 
     
   }else if (tela==21){
-    lcd.setCursor(0,0);lcd.print(F("> Led 1      "));lcd.print(Statusled1);lcd.print(F("     "));
-    lcd.setCursor(0,1);lcd.print(F("  Led 2      "));lcd.print(Statusled2);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Led 3      "));lcd.print(Statusled3);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("  Led 4      "));lcd.print(Statusled4);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("> Led 1        "));lcd.print(Statusled1);lcd.print(F("   "));
+    lcd.setCursor(0,1);lcd.print(F("  Led 2        "));lcd.print(Statusled2);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Led 3        "));lcd.print(Statusled3);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("  Led 4        "));lcd.print(Statusled4);lcd.print(F("   ")); 
 
   }else if (tela==22){
-    lcd.setCursor(0,0);lcd.print(F("  Led 1      "));lcd.print(Statusled1);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("> Led 2      "));lcd.print(Statusled2);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Led 3      "));lcd.print(Statusled3);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("  Led 4      "));lcd.print(Statusled4);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Led 1        "));lcd.print(Statusled1);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("> Led 2        "));lcd.print(Statusled2);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Led 3        "));lcd.print(Statusled3);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("  Led 4        "));lcd.print(Statusled4);lcd.print(F("   ")); 
 
   }else if (tela==23){
-    lcd.setCursor(0,0);lcd.print(F("  Led 1      "));lcd.print(Statusled1);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("  Led 2      "));lcd.print(Statusled2);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("> Led 3      "));lcd.print(Statusled3);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("  Led 4      "));lcd.print(Statusled4);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Led 1        "));lcd.print(Statusled1);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("  Led 2        "));lcd.print(Statusled2);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("> Led 3        "));lcd.print(Statusled3);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("  Led 4        "));lcd.print(Statusled4);lcd.print(F("   ")); 
 
   }else if (tela==24){
-    lcd.setCursor(0,0);lcd.print(F("  Led 1      "));lcd.print(Statusled1);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("  Led 2      "));lcd.print(Statusled2);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Led 3      "));lcd.print(Statusled3);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("> Led 4      "));lcd.print(Statusled4);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Led 1        "));lcd.print(Statusled1);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("  Led 2        "));lcd.print(Statusled2);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Led 3        "));lcd.print(Statusled3);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("> Led 4        "));lcd.print(Statusled4);lcd.print(F("   ")); 
 
   }else if (tela==25){
-    lcd.setCursor(0,0);lcd.print(F("> Led 5      "));lcd.print(Statusled5);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("  Led 6      "));lcd.print(Statusled6);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Led 7      "));lcd.print(Statusled7);lcd.print(F("     "));  
-    lcd.setCursor(0,3);lcd.print(F("  Led 8      "));lcd.print(Statusled8);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("> Led 5        "));lcd.print(Statusled5);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("  Led 6        "));lcd.print(Statusled6);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Led 7        "));lcd.print(Statusled7);lcd.print(F("   "));  
+    lcd.setCursor(0,3);lcd.print(F("  Led 8        "));lcd.print(Statusled8);lcd.print(F("   ")); 
 
   }else if (tela==26){
-    lcd.setCursor(0,0);lcd.print(F("  Led 5      "));lcd.print(Statusled5);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("> Led 6      "));lcd.print(Statusled6);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Led 7      "));lcd.print(Statusled7);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("  Led 8      "));lcd.print(Statusled8);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Led 5        "));lcd.print(Statusled5);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("> Led 6        "));lcd.print(Statusled6);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Led 7        "));lcd.print(Statusled7);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("  Led 8        "));lcd.print(Statusled8);lcd.print(F("   ")); 
  
   }else if (tela==27){
-    lcd.setCursor(0,0);lcd.print(F("  Led 5      "));lcd.print(Statusled5);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("  Led 6      "));lcd.print(Statusled6);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("> Led 7      "));lcd.print(Statusled7);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("  Led 8      "));lcd.print(Statusled8);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Led 5        "));lcd.print(Statusled5);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("  Led 6        "));lcd.print(Statusled6);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("> Led 7        "));lcd.print(Statusled7);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("  Led 8        "));lcd.print(Statusled8);lcd.print(F("   ")); 
 
   }else if (tela==28){
-    lcd.setCursor(0,0);lcd.print(F("  Led 5      "));lcd.print(Statusled5);lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("  Led 6      "));lcd.print(Statusled6);lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("  Led 7      "));lcd.print(Statusled7);lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("> Led 8      "));lcd.print(Statusled8);lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("  Led 5        "));lcd.print(Statusled5);lcd.print(F("   ")); 
+    lcd.setCursor(0,1);lcd.print(F("  Led 6        "));lcd.print(Statusled6);lcd.print(F("   ")); 
+    lcd.setCursor(0,2);lcd.print(F("  Led 7        "));lcd.print(Statusled7);lcd.print(F("   ")); 
+    lcd.setCursor(0,3);lcd.print(F("> Led 8        "));lcd.print(Statusled8);lcd.print(F("   ")); 
   
   }else if (tela==31){
-    if (Serial.available() > 0){
-      String recebido = leStringSerial();
-      lcd.clear();
-      lcd.setCursor(0,0);
-      lcd.print(recebido);
-    }
+    lcd.setCursor(0,0);lcd.print(F("Serial            "));
+    lcd.setCursor(0,1);lcd.print(F("                  "));
+    lcd.setCursor(0,2);lcd.print(F("                  "));
+    lcd.setCursor(0,3);lcd.print(F("                  "));
 
   }else if (tela==41){
-    lcd.setCursor(0,0);lcd.print(F("Luz          "));lcd.print("");lcd.print(F("     ")); 
-    lcd.setCursor(0,1);lcd.print(F("             "));lcd.print("");lcd.print(F("     ")); 
-    lcd.setCursor(0,2);lcd.print(F("             "));lcd.print("");lcd.print(F("     ")); 
-    lcd.setCursor(0,3);lcd.print(F("             "));lcd.print("");lcd.print(F("     ")); 
+    lcd.setCursor(0,0);lcd.print(F("Config            "));
+    lcd.setCursor(0,1);lcd.print(F("                  "));
+    lcd.setCursor(0,2);lcd.print(F("                  "));
+    lcd.setCursor(0,3);lcd.print(F("                  "));
   }
+  
   
   analogWrite (Mot1, Motor1); 
   analogWrite (Mot2, Motor2); 
@@ -298,8 +274,8 @@ void loop() {
     if(tela==3){tela=31;lcd.clear();}
     if(tela==4){tela=41;}
   }
-  
 
+  
   L_botao_MAIS = digitalRead(botao_MAIS);
   if (!L_botao_MAIS && LA_botao_MAIS) {
             if (tela==11){Motor1++;}
@@ -318,8 +294,9 @@ void loop() {
             if (tela==26){Statusled6 = 1;}
             if (tela==27){Statusled7 = 1;}
             if (tela==28){Statusled8 = 1;}
-       delay(30);
-   }
+            if (tela==41){lcd.backlight();}
+            delay(30);
+  }
   LA_botao_MAIS = L_botao_MAIS ; 
   // === Ações do Botão MENOS === //   
   L_botao_MENOS = digitalRead(botao_MENOS);
@@ -340,7 +317,8 @@ void loop() {
             if (tela==26){Statusled6 = 0;}
             if (tela==27){Statusled7 = 0;}
             if (tela==28){Statusled8 = 0;}
-       delay(30);
+            if (tela==41){lcd.noBacklight();}
+            delay(30);
   }                                      
   LA_botao_MENOS = L_botao_MENOS;
   // === Ações do Botão VOLTAR === // 
@@ -370,6 +348,8 @@ void loop() {
        delay(30);
   }                           
   LA_botao_VOLTAR = L_botao_VOLTAR;
+  
+  
   // === Ações do Botão ENTER === // 
   L_botao_ENTER = digitalRead(botao_ENTER);
   if (!L_botao_ENTER && LA_botao_ENTER) {
@@ -393,8 +373,7 @@ void loop() {
        else if (tela==26){voltar=tela; tela=27;}
        else if (tela==27){voltar=tela; tela=28;}
        else if (tela==28){}
-       
-         delay(30);
-       }                           
+  
+     }                           
   LA_botao_ENTER = L_botao_ENTER;
 }
